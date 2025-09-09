@@ -43,7 +43,7 @@ public class PasswordGenerator {
         String password = generatePassword(length, characterPool);
 
         System.out.println("\nGenerated Password: " + password);
-        System.out.println("Password Strength: " + characterPool.length() + " possible characters");
+        System.out.println("Password Strength: " + getPasswordStrength(length, includeLowercase, includeUppercase, includeNumbers, includeSymbols));
 
         scanner.close();
     }
@@ -78,5 +78,20 @@ public class PasswordGenerator {
         }
 
         return password.toString();
+    }
+
+    private static String getPasswordStrength(int length, boolean hasLower, boolean hasUpper, boolean hasNumbers, boolean hasSymbols) {
+        int strength = 0;
+
+        if (length >= 8) strength++;
+        if (length >= 12) strength++;
+        if (hasLower) strength++;
+        if (hasUpper) strength++;
+        if (hasNumbers) strength++;
+        if (hasSymbols) strength++;
+
+        if (strength <= 2) return "Weak";
+        else if (strength <= 4) return "Medium";
+        else return "Strong";
     }
 }
