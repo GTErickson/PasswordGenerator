@@ -40,7 +40,7 @@ public class PasswordGenerator {
 
         String characterPool = buildCharacterPool(includeLowercase, includeUppercase, includeNumbers, includeSymbols);
 
-        String password = generatePassword(length, characterPool);
+        String password = generatePassword(length, characterPool, includeLowercase, includeUppercase, includeNumbers, includeSymbols);
 
         System.out.println("\nGenerated Password: " + password);
         System.out.println("Password Strength: " + getPasswordStrength(length, includeLowercase, includeUppercase, includeNumbers, includeSymbols));
@@ -67,17 +67,35 @@ public class PasswordGenerator {
         return pool.toString();
     }
 
-    private static String generatePassword(int length, String characterPool) {
+    private static String shuffleString(String input) {
+        Random random = new Random();
+        char[] characters = input.toCharArray();
+
+        for (int i = characters.length - 1; i > 0; i--) {
+            int randomIndex = random.nextInt(i + 1);
+            char temp = characters[i];
+            characters[i] = characters[randomIndex];
+            characters[randomIndex] = temp;
+        }
+
+        return new String(characters);
+    }
+
+    private static String generatePassword(int length, String characterPool, boolean hasLower, boolean hasUpper, boolean hasNumbers, boolean hasSymbols) {
         Random random = new Random();
         StringBuilder password = new StringBuilder();
 
-        for (int i = 0; i < length; i++) {
+        if (hasLower) password.append(LOWERCASE.charAt(random.nextInt(LOWERCASE.length())));
+        if (hasUpper) password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length())));
+        if (hasLower) password.append(NUMBERS.charAt(random.nextInt(NUMBERS.length())));
+        if (hasLower) password.append(SYMBOLS.charAt(random.nextInt(SYMBOLS.length())));
+
+        while (password.length() < length) {
             int randomIndex = random.nextInt(characterPool.length());
-            char randomChar = characterPool.charAt(randomIndex);
-            password.append(randomChar);
+            password.append(characterPool.charAt(randomIndex));
         }
 
-        return password.toString();
+        return shuffleString(password.toString());
     }
 
     private static String getPasswordStrength(int length, boolean hasLower, boolean hasUpper, boolean hasNumbers, boolean hasSymbols) {
