@@ -36,23 +36,56 @@ public class PasswordGenerator {
             while(length < 4) {
                 System.out.print("Enter desired password length (minimum 4): ");
                 length = scanner.nextInt();
+                if (length < 4) System.out.println("Error! Length must be at least 4.");
             }
 
             // Record if the user wants to include lowercase characters
-            System.out.print("Include lowercase letters? (y/n): ");
-            boolean includeLowercase = scanner.next().toLowerCase().startsWith("y");
+            boolean includeLowercase = false;
+            while(true) {
+                System.out.print("Include lowercase letters? (y/n): ");
+                String out = scanner.next().toLowerCase();
+                if (out.startsWith("y") || out.startsWith("n")) {
+                    includeLowercase = out.startsWith("y");
+                    break;
+                }
+                System.out.print("Error! Invalid Input.\n");
+            }
 
             // Record if the user wants to include uppercase characters
-            System.out.print("Include uppercase letters? (y/n): ");
-            boolean includeUppercase = scanner.next().toLowerCase().startsWith("y");
+            boolean includeUppercase = false;
+            while(true) {
+                System.out.print("Include uppercase letters? (y/n): ");
+                String out = scanner.next().toLowerCase();
+                if (out.startsWith("y") || out.startsWith("n")) {
+                    includeUppercase = out.startsWith("y");
+                    break;
+                }
+                System.out.print("Error! Invalid Input.\n");
+            }
 
             // Record if the user wants to include numbers
-            System.out.print("Include numbers? (y/n): ");
-            boolean includeNumbers = scanner.next().toLowerCase().startsWith("y");
+            boolean includeNumbers = false;
+            while(true) {
+                System.out.print("Include Numbers? (y/n): ");
+                String out = scanner.next().toLowerCase();
+                if (out.startsWith("y") || out.startsWith("n")) {
+                    includeNumbers = out.startsWith("y");
+                    break;
+                }
+                System.out.print("Error! Invalid Input.\n");
+            }
             
             // Record if the user wants to include symbols
-            System.out.print("Include symbols? (y/n): ");
-            boolean includeSymbols= scanner.next().toLowerCase().startsWith("y");
+            boolean includeSymbols = false;
+            while(true) {
+                System.out.print("Include symbols? (y/n): ");
+                String out = scanner.next().toLowerCase();
+                if (out.startsWith("y") || out.startsWith("n")) {
+                    includeSymbols = out.startsWith("y");
+                    break;
+                }
+                System.out.print("Error! Invalid Input.\n");
+            }
 
             // Validate that the user has selected at least one character pool. If not include lowercase by default
             if(!includeLowercase && !includeUppercase && !includeNumbers && !includeSymbols) {
@@ -72,7 +105,7 @@ public class PasswordGenerator {
             System.out.println("Password Strength: " + getPasswordStrength(length, includeLowercase, includeUppercase, includeNumbers, includeSymbols));
 
             // Check if the user would like to generate another password
-            System.out.print("Would you like to generate another password? (y/n): ");
+            System.out.print("\nWould you like to generate another password? (y/n): ");
             boolean done = scanner.next().toLowerCase().startsWith("n");
 
             if (done) break;
@@ -130,8 +163,8 @@ public class PasswordGenerator {
         // Garantee that a character from each selected character type makes it into the password
         if (hasLower) password.append(LOWERCASE.charAt(random.nextInt(LOWERCASE.length())));
         if (hasUpper) password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length())));
-        if (hasLower) password.append(NUMBERS.charAt(random.nextInt(NUMBERS.length())));
-        if (hasLower) password.append(SYMBOLS.charAt(random.nextInt(SYMBOLS.length())));
+        if (hasNumbers) password.append(NUMBERS.charAt(random.nextInt(NUMBERS.length())));
+        if (hasSymbols) password.append(SYMBOLS.charAt(random.nextInt(SYMBOLS.length())));
 
         // Add random characters to the password until the desired length is achieved
         while (password.length() < length) {
