@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 import java.io.*;
 
+//Application Class
 public class PasswordGenerator {
 
     // Hardcoded character pools
@@ -98,14 +99,18 @@ public class PasswordGenerator {
             pool.append(SYMBOLS);
         }
 
+        // Return newly created character pool
         return pool.toString();
     }
 
     // Helper function used in the passwoird generation that shuffles characters in a string
     private static String shuffleString(String input) {
         Random random = new Random();
+
+        // Convert the string into a character array
         char[] characters = input.toCharArray();
 
+        // For each index in the character array, swap it's value with another index's value
         for (int i = characters.length - 1; i > 0; i--) {
             int randomIndex = random.nextInt(i + 1);
             char temp = characters[i];
@@ -113,6 +118,7 @@ public class PasswordGenerator {
             characters[randomIndex] = temp;
         }
 
+        // Convert character array back to a string and return it
         return new String(characters);
     }
 
